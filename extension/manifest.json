@@ -4,7 +4,7 @@
   "version": "1.1",
   "description": "A live-checker for checking the compliancy of your data on eScriptorium with SegmOnto vocabularies.",
   "author": "Thibault Clérice <thibault.clerice@inria.fr>",
-  "permissions": ["activeTab", "storage"],
+  "permissions": ["activeTab"],
   "host_permissions": ["https://*/document/*"],
   "content_scripts": [
     {
