@@ -204,28 +204,32 @@ document.addEventListener("DOMContentLoaded", function() {
       // You can handle errors here or propagate them to the caller as needed
     }
   }
-  async function retrievePartIds(domain, docId, token, callback) {
+  async function retrievePartIds(domain, docId, token, callback, uri = null, pages = []) {
     try {
-      const response = await authFetch(
-        `${domain}/api/documents/${docId}/parts/`, token);
+      const response = await authFetch(uri ?? `${domain}/api/documents/${docId}/parts/`, token);
       if (!response.ok) {
         results.innerHTML =
           `<hr/><div class="alert alert-danger">HTTP error! Status: ${response.status}</div>`;
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      let pages = [];
+      
       for (let i = 0; i < data.results.length; i++) {
         pages.push(
           `${domain}/api/documents/${docId}/parts/${data.results[i].pk}/`
         );
       }
-      return callback(pages, token);
+      
+      // If data.next contains a URI, recursively call retrievePartIds to continue fetching
+      if (data.next) {
+        await retrievePartIds(domain, docId, token, callback, data.next, pages);
+      } else {
+        return callback(pages, token);
+      }
     } catch (error) {
       results.innerHTML =
         `<hr/><div class="alert alert-danger">Unable to reach the server.</div>`;
       console.error('Error fetching data:', error);
-      // You can handle errors here or propagate them to the caller as needed
     }
   }
   async function processQueue(uris, token, typesDictionary) {

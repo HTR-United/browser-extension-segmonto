@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "eScriptorium Segmonto Live Checker",
-  "version": "1.1",
+  "version": "1.2",
   "description": "A live-checker for checking the compliancy of your data on eScriptorium with SegmOnto vocabularies.",
   "author": "Thibault Clérice <thibault.clerice@inria.fr>",
   "permissions": ["activeTab"],
